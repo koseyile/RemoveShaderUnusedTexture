@@ -16,12 +16,21 @@ public class ModifyMaterialTest : MonoBehaviour {
 		
 	}
 
-	[MenuItem ("ChangeMaterial/SetTextureToNull")]
-	static void SetTextureToNull(){
-		//string path = Application.dataPath + "/Unlit_testShader.mat";
-		string path = "Assets/Unlit_testShader.mat";
-		Debug.Log (path);
-		Material m = AssetDatabase.LoadAssetAtPath<Material> (path);
+	[MenuItem ("ChangeMaterial/RemoveAllMaterialUnusedTexture")]
+	static void RemoveAllMaterialUnusedTexture(){
+
+		string[] guids = AssetDatabase.FindAssets ("t:material");
+		foreach (var g in guids) {
+			Debug.Log (AssetDatabase.GUIDToAssetPath(g));
+			Material m = AssetDatabase.LoadAssetAtPath<Material> (AssetDatabase.GUIDToAssetPath(g));
+			SetTextureToNull (m);
+		}
+
+		Debug.Log ("Remove unused textures finished");
+	}
+
+	static void SetTextureToNull(Material m){
+
 		if (m == null) {
 			//Debug.Log ("nnnn");
 		}
